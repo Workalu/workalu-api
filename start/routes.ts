@@ -22,3 +22,6 @@ import Route from '@ioc:Adonis/Core/Route'
 
 Route.post('/register', 'EmpresaUsersController.store')
 Route.post('/login', 'EmpresaUsersController.login')
+
+Route.put('/update/:tokenEmpresa', 'EmpresaUsersController.update').middleware('auth:api')
+Route.delete('/delete/:tokenEmpresa', 'EmpresaUsersController.destroy').middleware('auth:api')
