@@ -18,6 +18,9 @@ export default class DadosVagas extends BaseModel {
   public descVaga: string
 
   @column()
+  public categoria: string
+
+  @column()
   public palavrasChaves: JSON
 
   @column()
