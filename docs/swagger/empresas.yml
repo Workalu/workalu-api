@@ -1,0 +1,77 @@
+paths:
+  /registrar:
+    post:
+      tags:
+        - Empresa
+      security: []
+      description: Cadastrar o nome da empresa e ter o token de acesso
+      requestBody:
+        description: Nome da empresa que será cadastrado na plataforma
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Registrar'
+      responses:
+        '201':
+          description: faz o cadastro e retorna o token da empresa para fazer o login
+        '400':
+          description: retorna um aviso de que o usuário não preencheu corretamente o campo
+        '500':
+          description: retorna erro no servidor caso o tamanho seja vazio ou undefined
+  /login:
+    post:
+      tags:
+        - Empresa
+      security: []
+      description: Efetuar o login na plataforma
+      requestBody:
+        description: Usar o token da empresa para efetuar o login
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Login'
+      responses:
+        '200':
+          description: retorna o bearer token
+        '500':
+          description: erro interno
+  /update/{tokenEmpresa}:
+    put:
+      tags:
+        - Empresa
+      security:
+        - bearerAuth: []
+  /delete/{tokenEmpresa}:
+    delete:
+      tags:
+        - Empresa
+      security:
+        - bearerAuth: []
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    Registrar:
+      title: Registrar
+      type: object
+      properties:
+        nomeEmpresa:
+          type: string
+          description: nome da empresa
+      required:
+        - text
+    Login:
+      title: Login
+      type: object
+      properties:
+        tokenEmpresa:
+          type: string
+          description: token de login da empresa
+      required:
+        - text

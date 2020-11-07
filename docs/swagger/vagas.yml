@@ -1,0 +1,21 @@
+paths:
+  /vagas:
+    get:
+      tags:
+        - Vagas
+  /vaga/{id}:
+    get:
+      tags:
+        - Vagas
+  /vaga/cadastrar:
+    post:
+      tags:
+        - Vagas
+  /vaga/editar/{id}:
+    put:
+      tags:
+        - Vagas
+  /vaga/deletar/{id}:
+    delete:
+      tags:
+        - Vagas

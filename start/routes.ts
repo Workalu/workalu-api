@@ -26,7 +26,7 @@ Route.put('/update/:tokenEmpresa', 'EmpresaUsersController.update').middleware('
 Route.delete('/delete/:tokenEmpresa', 'EmpresaUsersController.destroy').middleware('auth:api')
 
 Route.get('/vagas', 'DadosVagasesController.index')
-Route.post('/vagas/:id', 'DadosVagasesController.show')
+Route.get('/vaga/:id', 'DadosVagasesController.show')
 Route.post('/vaga/cadastrar', 'DadosVagasesController.store').middleware('auth:api')
 Route.put('/vaga/editar/:id', 'DadosVagasesController.update').middleware('auth:api')
 Route.delete('/vaga/deletar/:id', 'DadosVagasesController.destroy').middleware('auth:api')

@@ -27,6 +27,7 @@
     "@adonisjs/core": "^5.0.4-preview-rc",
     "@adonisjs/lucid": "^9.0.3",
     "@adonisjs/repl": "^1.0.0",
+    "adonis5-swagger": "^1.0.6",
     "luxon": "^1.25.0",
     "pg": "^8.4.2",
     "proxy-addr": "^2.0.6",

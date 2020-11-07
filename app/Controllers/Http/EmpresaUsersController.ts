@@ -6,6 +6,9 @@ export default class EmpresaUsersController {
     try {
       const nomeEmpresa = request.input('nomeEmpresa')
 
+      if (nomeEmpresa.length <= 0) {
+        return response.status(400).json({ error: 'nome da empresa está vazio!' })
+      }
       const tokenEmpresa = Math.random()
         .toString(36)
         .replace(/[^a-z]+/g, '')
@@ -19,9 +22,9 @@ export default class EmpresaUsersController {
       if (!user) {
         return response.json({ error: 'Não foi possível criar o usuário' })
       }
-      return response.json(user.tokenEmpresa)
+      return response.status(201).json(user.tokenEmpresa)
     } catch (err) {
-      return response.json({ error: err })
+      return response.status(500).json({ error: err.message })
     }
   }
 
@@ -35,7 +38,7 @@ export default class EmpresaUsersController {
 
       return token.toJSON()
     } catch (err) {
-      return response.json({ error: err })
+      return response.status(500).json({ error: err.message })
     }
   }
 
