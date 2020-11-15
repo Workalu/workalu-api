@@ -58,21 +58,27 @@ export default class EmpresaUsersController {
         return response.json({ error: 'Token da sua empresa não existente ou não foi passado.' })
       }
       const nome = request.input('nomeEmpresa')
+
+      if (nome === '') {
+        return response.status(400).json({ error: 'Nome da empresa está vazio' })
+      }
       const userEmpresa = await EmpresaUser.query()
         .where('tokenEmpresa', tokenEmpresa)
         .update({ nome_empresa: nome })
 
       if (!userEmpresa) {
-        return response.json({ error: 'Não foi possível atualizar o nome da empresa.' })
+        return response.status(400).json({
+          error: 'Não foi possível atualizar o nome da empresa. Usuário inválido ou inexistente',
+        })
       }
 
       return response.json({ message: 'Atualizado com sucesso o nome da empresa.' })
     } catch (err) {
-      return response.json({ error: err })
+      return response.status(500).json({ error: err })
     }
   }
 
-  public async destroy({ request, response, params, auth }: HttpContextContract) {
+  public async destroy({ response, params, auth }: HttpContextContract) {
     try {
       const authenticate = await auth.use('api').check()
 
@@ -85,18 +91,22 @@ export default class EmpresaUsersController {
       const { tokenEmpresa } = params
 
       if (!tokenEmpresa) {
-        return response.json({ error: 'Token da sua empresa não existente ou não foi passado.' })
+        return response
+          .status(404)
+          .json({ error: 'Token da sua empresa não existente ou não foi passado.' })
       }
 
       const resp = await EmpresaUser.query().where('tokenEmpresa', tokenEmpresa).delete()
 
       if (!resp) {
-        return response.json({ error: 'Não foi possível excluir! Tivemos um problema.' })
+        return response
+          .status(400)
+          .json({ error: 'Não foi possível excluir! Usuário não encontrado' })
       }
 
-      return response.json({ message: 'Excluido com sucesso!' })
+      return response.status(200).json({ message: 'Excluido com sucesso!' })
     } catch (err) {
-      return response.json({ error: err })
+      return response.status(500).json({ error: err })
     }
   }
 }

@@ -4,7 +4,7 @@ paths:
       tags:
         - Empresa
       security: []
-      description: Cadastrar o nome da empresa e ter o token de acesso
+      description: Cadastrar o nome da empresa e ter o token do usuário
       requestBody:
         description: Nome da empresa que será cadastrado na plataforma
         required: true
@@ -14,11 +14,11 @@ paths:
               $ref: '#/components/schemas/Registrar'
       responses:
         '201':
-          description: faz o cadastro e retorna o token da empresa para fazer o login
+          description: Requisição foi bem sucedida e criado um novo recurso
         '400':
-          description: retorna um aviso de que o usuário não preencheu corretamente o campo
+          description: O servidor não conseguiu entender sua requisição
         '500':
-          description: retorna erro no servidor caso o tamanho seja vazio ou undefined
+          description: Erro no servidor
   /login:
     post:
       tags:
@@ -34,21 +34,70 @@ paths:
               $ref: '#/components/schemas/Login'
       responses:
         '200':
-          description: retorna o bearer token
+          description: Requisição foi bem sucedida
         '500':
-          description: erro interno
+          description: Erro no servidor
   /update/{tokenEmpresa}:
     put:
       tags:
         - Empresa
       security:
         - bearerAuth: []
+      description: Atualizar ou modificar o nome da empresa
+      parameters:
+        - in: path
+          name: tokenEmpresa
+          required: true
+          schema:
+            type: string
+          style: simple
+          explode: false
+          description: Usuário
+      requestBody:
+        description: Modificar o nome da empresa
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Editar'
+      responses:
+        '200':
+          description: Requisição foi bem sucedida
+        '401':
+          description: Usuário não autenticado
+        '400':
+          description: O servidor não conseguiu entender sua requisição
+        '404':
+          description: O servidor não conseguiu encontrar a rota
+        '500':
+          description: Erro no servidor
   /delete/{tokenEmpresa}:
     delete:
       tags:
         - Empresa
+      description: excluir o usuário da nossa plataforma
       security:
         - bearerAuth: []
+      parameters:
+        - in: path
+          name: tokenEmpresa
+          required: true
+          schema:
+            type: string
+          style: simple
+          explode: false
+          description: Usuário
+      responses:
+        '200':
+          description: Requisição foi bem sucedida
+        '401':
+          description: Usuário não autenticado
+        '400':
+          description: O servidor não conseguiu entender sua requisição
+        '404':
+          description: O servidor não conseguiu encontrar a rota
+        '500':
+          description: Erro no servidor
 
 components:
   securitySchemes:
@@ -72,6 +121,15 @@ components:
       properties:
         tokenEmpresa:
           type: string
-          description: token de login da empresa
+          description: usuário
+      required:
+        - text
+    Editar:
+      title: Editar
+      type: object
+      properties:
+        nomeEmpresa:
+          type: string
+          description: novo nome da empresa
       required:
         - text

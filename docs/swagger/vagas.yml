@@ -3,19 +3,82 @@ paths:
     get:
       tags:
         - Vagas
+      description: buscar todas as vagas cadastradas
   /vaga/{id}:
     get:
       tags:
         - Vagas
+      description: buscar por uma vaga específica
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          style: simple
+          explode: false
+          description: Id da oferta de emprego
   /vaga/cadastrar:
     post:
       tags:
         - Vagas
+      security:
+        - bearerAuth: []
+      requestBody:
+        description: Cadastrar oferta/vaga de emprego
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Cadastrar'
   /vaga/editar/{id}:
     put:
       tags:
         - Vagas
+      security:
+        - bearerAuth: []
   /vaga/deletar/{id}:
     delete:
       tags:
         - Vagas
+      security:
+        - bearerAuth: []
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    Cadastrar:
+      title: Cadastrar
+      type: object
+      properties:
+        nomeEmpresa:
+          type: string
+          description: nome da empresa
+        nomeVaga:
+          type: string
+          description: nome da vaga/oferta
+        descVaga:
+          type: string
+          description: descrição da vaga/oferta de emprego
+        categoria:
+          type: string
+          description: categoria da vaga; Ex= Administração, TI, Agronomia
+        palavrasChaves:
+          type: array
+          items:
+            type: string
+            description: palavras importantes para o anúncio
+        email:
+          type: string
+          description: email para enviar o currículo ou entrar em contato
+        cidade:
+          type: string
+          description: cidade que está sendo ofertado
+        estado:
+          type: string
+          maxLength: 2
+          description: UF

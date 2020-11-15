@@ -17,7 +17,7 @@ export default class DadosVagases extends BaseSchema {
       table.string('nome_vaga', 80).notNullable()
       table.string('desc_vaga', 3500).notNullable()
       table.string('categoria', 80).notNullable()
-      table.json('palavras_chaves')
+      table.string('palavras_chaves').defaultTo('[]')
       table.string('email', 80).notNullable()
       table.string('cidade', 80).notNullable()
       table.string('estado', 2).notNullable()
